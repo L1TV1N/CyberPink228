@@ -1,0 +1,10 @@
+"""Small runnable example: processes data/test_list.xlsx and writes results to results/""" 
+from pathlib import Path
+from .pipeline import run_pipeline
+from .config import Config
+
+if __name__ == '__main__':
+    input_path = Path(__file__).parent.parent / 'data' / 'test_list.xlsx'
+    out = run_pipeline(input_path, output_dir=str(Path(__file__).parent.parent / 'results'), config=Config())
+    print('Pipeline finished. Results saved to results/route.json and results/map.html')
+    print('Summary:', out.get('metrics', {}))

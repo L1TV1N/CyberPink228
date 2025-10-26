@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Planner — Вход</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background:#f0f4f8; font-family:'Inter',sans-serif; margin:0; padding:0; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+    .login-container { background:#fff; padding:2em; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1); width:100%; max-width:400px; }
+    h1 { text-align:center; margin-bottom:1em; color:#4CAF50; }
+    form { display:flex; flex-direction:column; gap:0.8em; }
+    input { padding:0.8em; border-radius:8px; border:1px solid #ddd; width:100%; font-size:1em; transition:0.3s; }
+    input:focus { border-color:#4CAF50; outline:none; box-shadow:0 0 5px rgba(76,175,80,0.4); }
+    button { background:#4CAF50; color:#fff; border:none; padding:0.8em; border-radius:8px; cursor:pointer; font-size:1em; transition:0.3s; }
+    button:hover { background:#45a049; }
+    .btn-outline { background:#fff; color:#4CAF50; border:1px solid #4CAF50; }
+    .btn-outline:hover { background:#f0f4f8; }
+    .links { display:flex; justify-content:space-between; margin-top:0.5em; font-size:0.9em; }
+    .links a { color:#4CAF50; text-decoration:none; }
+    .links a:hover { text-decoration:underline; }
+    #toast { position:fixed; bottom:1em; right:1em; padding:1em 1.5em; border-radius:8px; display:none; color:#fff; font-weight:500; z-index:999; }
+
+    @media (max-width:480px){
+      .login-container { padding:1.5em; margin:0 1em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Вход в Planner</h1>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Пароль" required>
+      <button type="submit">Войти</button>
+    </form>
+    <div class="links">
+      <a href="register.html">Регистрация</a>
+      <a href="#">Забыли пароль?</a>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/push.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!email || !password) {
+        showToast('Заполните все поля', 'warning');
+        return;
+      }
+
+      try {
+        const res = await api.post('/auth/login', { email, password });
+        if (res.success) {
+          showToast('Успешный вход', 'success');
+          localStorage.setItem('userToken', res.token);
+          window.location.href = 'index.html';
+        } else {
+          showToast(res.message || 'Ошибка входа', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Ошибка сервера', 'error');
+      }
+    });
+  </script>
+</body>
+</html>

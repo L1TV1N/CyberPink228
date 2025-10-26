@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planner — Карта</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container-row">
+      <h1>Planner — Система планирования выездов</h1>
+      <div>
+        <button id="btn-history" class="btn btn-outline">История</button>
+        <button id="btn-logout" class="btn">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" style="width:100%;padding:12px">
+      <div class="grid">
+        <div>
+          <h3>Загрузить CSV</h3>
+          <input id="file" type="file" accept=".csv" class="input" />
+          <div style="margin-top:8px">
+            <button id="uploadBtn" class="btn">Загрузить и показать</button>
+            <button id="importBtn" class="btn-outline" style="margin-left:8px">Создать поездку из CSV</button>
+          </div>
+
+          <hr style="margin:12px 0"/>
+
+          <h3>Опции маршрута</h3>
+          <label>Mode:
+            <select id="routeMode" class="input" style="width:100%;margin-top:6px">
+              <option value="baseline">Baseline</option>
+              <option value="ml">ML (placeholder)</option>
+            </select>
+          </label>
+          <label style="margin-top:8px">Vehicle:
+            <select id="vehicle" class="input" style="width:100%;margin-top:6px">
+              <option value="car">Car</option>
+              <option value="bicycle">Bicycle</option>
+              <option value="foot">Foot</option>
+            </select>
+          </label>
+
+          <div style="margin-top:12px">
+            <button id="buildBtn" class="btn">Построить маршрут</button>
+            <button id="saveTripBtn" class="btn-outline" style="margin-left:8px">Сохранить поездку</button>
+          </div>
+
+          <div style="margin-top:12px">
+            <label><input type="checkbox" id="filterVip" checked/> Показывать VIP</label>
+          </div>
+        </div>
+
+        <div style="position:relative">
+          <div id="map" class="map-full"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historyPanel" class="card hidden" style="margin-top:12px">
+      <h3>История поездок</h3>
+      <div id="historyList"></div>
+    </section>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <!-- Скрипты -->
+  <script type="module">
+    import { protectRoute, logout } from './js/auth.js';
+    import './js/push.js';
+    import './js/map.js';
+    import './js/upload.js';
+    import './js/trips.js';
+    import './js/history.js';
+
+    // Проверка авторизации при загрузке страницы
+    protectRoute();
+
+    // Кнопка истории
+    const btnHistory = document.getElementById('btn-history');
+    const historyPanel = document.getElementById('historyPanel');
+    btnHistory.addEventListener('click', () => {
+      historyPanel.classList.toggle('hidden');
+    });
+
+    // Кнопка выхода
+    const btnLogout = document.getElementById('btn-logout');
+    btnLogout.addEventListener('click', () => {
+      logout();
+    });
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+</body>
+</html>

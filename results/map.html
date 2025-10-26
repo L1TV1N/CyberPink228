@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Route map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style> #map { height: 90vh; } body { margin:0; padding:0; } </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([47.228929,39.719192], 12);
+  L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  var latlngs = [[47.228929,39.719192],
+[47.228929,39.719192],
+[47.223456,39.726789],
+[47.219876,39.732109],
+[47.248765,39.732109],
+[47.246892,39.723456],
+[47.245678,39.712398],
+[47.241057,39.709558],
+[47.241057,39.709558],
+[47.218765,39.712345],
+[47.231234,39.698765],
+[47.235671,39.689543],
+[47.296381,39.674925],
+[47.26789,39.687654],
+[47.256789,39.698765],
+[47.260138,39.719047],
+[47.26789,39.734567],
+[47.258743,39.745672],
+[47.241234,39.745678],
+[47.230548,39.781504]];
+  var polyline = L.polyline(latlngs, {weight:4}).addTo(map);
+  map.fitBounds(polyline.getBounds());
+
+   L.marker([47.228929,39.719192]).bindPopup('None (id:1)');  L.marker([47.228929,39.719192]).bindPopup('None (id:11)');  L.marker([47.223456,39.726789]).bindPopup('None (id:9)');  L.marker([47.219876,39.732109]).bindPopup('None (id:14)');  L.marker([47.248765,39.732109]).bindPopup('None (id:18)');  L.marker([47.246892,39.723456]).bindPopup('None (id:8)');  L.marker([47.245678,39.712398]).bindPopup('None (id:12)');  L.marker([47.241057,39.709558]).bindPopup('None (id:20)');  L.marker([47.241057,39.709558]).bindPopup('None (id:10)');  L.marker([47.218765,39.712345]).bindPopup('None (id:4)');  L.marker([47.231234,39.698765]).bindPopup('None (id:7)');  L.marker([47.235671,39.689543]).bindPopup('None (id:16)');  L.marker([47.296381,39.674925]).bindPopup('None (id:19)');  L.marker([47.26789,39.687654]).bindPopup('None (id:15)');  L.marker([47.256789,39.698765]).bindPopup('None (id:13)');  L.marker([47.260138,39.719047]).bindPopup('None (id:2)');  L.marker([47.26789,39.734567]).bindPopup('None (id:3)');  L.marker([47.258743,39.745672]).bindPopup('None (id:5)');  L.marker([47.241234,39.745678]).bindPopup('None (id:17)');  L.marker([47.230548,39.781504]).bindPopup('None (id:6)'); 
+
+  var metrics = {"distance_km": 32.68064368680045, "estimated_travel_time_min": 49.02096553020068};
+  var info = L.control();
+  info.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'info');
+      div.style.background = 'white';
+      div.style.padding = '6px';
+      div.innerHTML = '<b>Estimated distance (км):</b> ' + metrics.distance_km.toFixed(2) + '<br>' +
+                      '<b>Estimated travel time (мин):</b> ' + metrics.estimated_travel_time_min.toFixed(0);
+      return div;
+  };
+  info.addTo(map);
+</script>
+</body>
+</html>

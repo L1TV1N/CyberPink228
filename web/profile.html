@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Профиль — Planner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container" style="max-width:760px;margin-top:40px;">
+    <div class="card p-4">
+      <h4>Профиль</h4>
+      <p>Здесь отображается простая информация о пользователе и загруженные файлы.</p>
+      <div id="files-list"></div>
+      <a href="/" class="btn btn-link mt-3">Вернуться</a>
+    </div>
+  </div>
+
+  <script>
+    // fetch list of uploaded files by reading data/ directory isn't available from frontend.
+    // Keep this page as a placeholder and visual profile UI.
+    document.getElementById('files-list').innerHTML = '<em>Список загруженных файлов доступен на сервере в папке /data (только для примера).</em>';
+  </script>
+</body>
+</html>
